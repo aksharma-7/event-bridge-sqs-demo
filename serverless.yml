@@ -23,6 +23,13 @@ functions:
           method: post
     environment:
       EventBusName: !Ref EventBus
+  processEventLambda:
+    handler: functions/processEvent.handler
+    events:
+      - sqs:
+          arn: !GetAtt TargetSQS.Arn
+          batchSize: 10
+          functionResponseType: "ReportBatchItemFailures"
 
 resources:
   Resources: ${file(resources.yml)}
