@@ -10,4 +10,10 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: functions/putEvents.handler
+
+resources:
+  Resources: ${file(resources.yml)}
+  Outputs:
+    EventBusName:
+      Value: !Ref EventBus
