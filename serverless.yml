@@ -7,10 +7,22 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: events:PutEvents
+          Resource: !GetAtt EventBus.Arn
 
 functions:
-  hello:
+  putEventsLambda:
     handler: functions/putEvents.handler
+    events:
+      - http:
+          path: /generate
+          method: post
+    environment:
+      EventBusName: !Ref EventBus
 
 resources:
   Resources: ${file(resources.yml)}
