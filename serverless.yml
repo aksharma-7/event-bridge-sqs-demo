@@ -2,6 +2,9 @@ service: event-bridge-sqs-demo
 
 frameworkVersion: "3"
 
+plugins:
+  - serverless-apigateway-service-proxy
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -13,6 +16,16 @@ provider:
         - Effect: Allow
           Action: events:PutEvents
           Resource: !GetAtt EventBus.Arn
+
+custom:
+  apiGatewayServiceProxies:
+    - eventbridge: # source and detailType are hardcoded; detail defaults to POST body
+        path: /eventbridge
+        method: post
+        source: "fuel-app"
+        detailType: "user-signup"
+        eventBusName: { Ref: "EventBus" }
+        cors: true
 
 functions:
   putEventsLambda:
