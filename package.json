@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "serverless": "^3.28.1"
+    "serverless": "^3.28.1",
+    "serverless-apigateway-service-proxy": "^2.2.1"
   }
 }
